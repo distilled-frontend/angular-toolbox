@@ -7,7 +7,7 @@
 
 <router-outlet></router-outlet>
 
-<div class="mx-auto w-2/3 mt-8 border-blue-950 border-2 rounded-md p-4">
+<div [ngClass]="{hidden: !showLogs }" class="mx-auto w-2/3 mt-8 border-blue-950 border-2 rounded-md p-4">
   <div class="ribbon flex flex-row justify-between">
     <h1 class="text-xl">Logs</h1>
     <button

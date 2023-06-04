@@ -7,8 +7,9 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { LOG_MODE, LogService } from './log.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'ui-app-root',
@@ -18,6 +19,9 @@ import { LOG_MODE, LogService } from './log.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements AfterViewInit {
+  get showLogs() {
+    return window.location.pathname !== '/';
+  }
   clearLogs() {
     this.logBase.nativeElement.innerHTML = '';
   }
