@@ -1,0 +1,21 @@
+<div class="layout mx-auto w-2/3 mt-8">
+  <h1 routerLink="/" class="cursor-pointer text-center text-xl">
+    Distilled Frontend - The Angular Toolbox
+  </h1>
+  <hr class="my-8" />
+</div>
+
+<router-outlet></router-outlet>
+
+<div class="mx-auto w-2/3 mt-8 border-blue-950 border-2 rounded-md p-4">
+  <div class="ribbon flex flex-row justify-between">
+    <h1 class="text-xl">Logs</h1>
+    <button
+      (click)="clearLogs()"
+      class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Clear
+    </button>
+  </div>
+  <div #logBase></div>
+</div>

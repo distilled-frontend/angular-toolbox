@@ -1,0 +1,126 @@
+<div class="lesson flex">
+  <div class="instructions w-1/4 border-zinc-400 border-2 rounded-md ml-4 p-4">
+    <h2 class="text-center text-xl">What to look at</h2>
+    <p *ngIf="currentTab == 0">
+      When changing only the param of a route, the component stays rendered, but
+      when we have a paramless route to refer to "all", like in "all users", it
+      gets re-rendered
+    </p>
+    <p *ngIf="currentTab == 1">
+      When we go from a route with one param to a subroute with an extra param,
+      the component gets re-rendered. If we change between two routes with
+      different params, the component stays the same
+    </p>
+    <p *ngIf="currentTab == 2">
+      Using a custom matcher, we can set a single rule to match multile param
+      configs. Also, the component wil not get re-rendered between navigations
+    </p>
+    <p *ngIf="currentTab == 3">
+      Using a custom matcher, we can create an infinite nesting. Think about
+      wanting to represent a folder structure that's saveable & shareable, or
+      about keeping some user choices in the URL. Multiple usecases, for sure,
+      these are just some
+    </p>
+    <p *ngIf="currentTab == 4">
+      Using a custom matcher, we can create a matcher that matches a specific
+      datatype. This is useful for when we want to have the same route param
+      match to have different meaning and render different routes that match
+      only numbers, or only strings, or only booleans
+    </p>
+  </div>
+
+  <div class="examples w-3/4 mr-4 border-zinc-400 border-2 rounded-md p-4">
+    <h2 class="text-center text-xl">Dynamic route URL matcher</h2>
+
+    <div class="flex justify-center w-2/3 mx-auto flex-col text-center">
+      <div class="flex flex-row justify-around w-full">
+        <button
+          *ngFor="let btnConfig of buttons"
+          class="my-4 border-zinc-100 hover:bg-zinc-400 bg-zinc-300 px-6 py-1"
+          (click)="currentTab = btnConfig.tab"
+        >
+          {{ btnConfig.label }}
+        </button>
+      </div>
+
+      <ng-container *ngIf="currentTab == 0">
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher/users">Users - generic page</a>
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher/users/1">User 1</a>
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher/users/2">Users 2</a>
+      </ng-container>
+      <ng-container *ngIf="currentTab == 1">
+        <!-- <hr class="my-4" /> -->
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher/users/1">User 1 no proj</a>
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher/users/1/projectA">User 1 project</a>
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher/users/2/projectB">User 2 project</a>
+      </ng-container>
+      <ng-container *ngIf="currentTab == 2">
+        <!-- <hr class="my-4" /> -->
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher/location"> empty location </a>
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher/location/my-disk">
+          location /my-disk
+        </a>
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher/location/my-disk/my-folder">
+          location /my-disk/my-folder
+        </a>
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher/location/my-disk/another-folder">
+          location /my-disk/another-folder
+        </a>
+        <a
+          class="hover:text-blue-300 py-1" routerLink="/matcher/location/my-disk/another-folder/some-file"
+        >
+          location /my-disk/another-folder/some-file
+        </a>
+        <a
+          class="hover:text-blue-300 py-1" routerLink="/matcher/location/my-disk/another-folder/another-file"
+        >
+          location /my-disk/another-folder/another-file
+        </a>
+      </ng-container>
+      <ng-container *ngIf="currentTab == 3">
+        <!-- <hr class="my-4" /> -->
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher/infinite-nesting">Basic route</a>
+        <a
+          class="hover:text-blue-300 py-1" routerLink="/matcher/infinite-nesting/h/e/l/l/o/w/o/r/l/d"
+          >deep route nesting</a
+        >
+      </ng-container>
+      <ng-container *ngIf="currentTab == 4">
+        <!-- <hr class="my-4" /> -->
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher">base route</a>
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher/datatype/420">number param</a>
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher/datatype/hello">string param</a>
+        <a class="hover:text-blue-300 py-1" routerLink="/matcher/datatype/true">bool param</a>
+      </ng-container>
+    </div>
+
+    <div class="my-8 mx-auto max-w-2xl flex flex-col">
+      <input
+        #userInput
+        type="text"
+        class="w-full border-solid border-2"
+        [value]="location"
+        (keydown.enter)="navigate(userInput.value)"
+      />
+      <button
+        (click)="navigate(userInput.value)"
+        class="mt-4 rounded-md border-zinc-100 hover:bg-zinc-400 bg-zinc-300 px-6 py-1"
+      >
+        Navigate
+      </button>
+      <div class="mt-8">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <div class="mx-auto border-zinc-400 border-2 rounded-md p-4 w-48">
+      <h3 class="text-center text-lg">Params</h3>
+      <div class="flex justify-center">
+        <ul>
+          <li *ngFor="let param of params$ | async">
+            <p class="text-sm mt-2">{{ param.key }}:{{ param.value }}</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
